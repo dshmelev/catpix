@@ -68,7 +68,11 @@ module Catpix
   # Depending on which of the above will be used, the screen size
   # must be normalised accordingly.
   def self.get_screen_size
-    th, tw = TermInfo.screen_size
+    begin
+      th, tw = TermInfo.screen_size
+    rescue SystemCallError
+      th, tw = [24, 80]
+    end
     if high_res? then [tw, th * 2] else [tw / 2, th] end
   end
 
